@@ -4,4 +4,6 @@ Werkzeug
 certifi
 chardet
 gunicorn
+pymongo
+selenium
 requests
