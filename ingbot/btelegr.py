@@ -1,5 +1,5 @@
+import time
 import requests 
-import time 
 import datetime
 import random
 from pymongo import MongoClient
@@ -52,7 +52,7 @@ def switch(in_msg, last, db):
                         msg = port['name'] + ":\n" +  mod["mod1"]+" | " + mod["mod2"]+" | " + mod["mod3"]+" | " + mod["mod4"]
                         send_mess(chat_id, msg)
             else:
-                send_mess(chat_id, "Упс, такого портала " + in_msg[11:] + " нет в моей базе")
+                send_mess(chat_id, "Упс, " + in_msg[11:] + " еще нет в моей базе")
         elif "где" in in_msg:
             objc = players.find({"nameing": in_msg[8:]})  
             for plr in objc:
