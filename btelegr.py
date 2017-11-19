@@ -1,5 +1,5 @@
-import requests 
 import time 
+import requests 
 import datetime
 import random
 from pymongo import MongoClient
