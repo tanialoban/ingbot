@@ -59,7 +59,7 @@ def switch(in_msg, last, db):
                 if plr != "":     
                     msg = in_msg[8:] + " последний раз был на "+ plr['portal'] + " в " + plr['time'] 
                 else:
-                    msg = "Прости друг, " + in_msg[8:] + " еще не добавил в базу, но я работаю над этим :)"
+                    msg = "Sorry, " + in_msg[8:] + " еще не добавил в базу, но я работаю над этим :)"
                 send_mess(chat_id, msg)
     elif in_msg in welcome:
         send_mess(chat_id, random.SystemRandom().choice(welcome) + ', ' + firstname)
