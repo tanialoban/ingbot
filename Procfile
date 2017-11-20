@@ -1,1 +1,1 @@
-worker: python btelegr.py
+web: python btelegr.py
