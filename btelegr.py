@@ -65,7 +65,7 @@ def switch(in_msg, last, db):
         send_mess(chat_id, random.SystemRandom().choice(welcome) + ', ' + firstname)
     elif in_msg in cool:            
         send_mess(chat_id, random.SystemRandom().choice(thanks))   
-    time.sleep(3)   
+    time.sleep(1)   
 
 def get_status(db):
     portals = db['portals']
@@ -75,10 +75,9 @@ def get_status(db):
         mods = modes.find({"_id": port['_id']}) 
         for mod in mods:   
             msg = port['name'] + ":\n" +  mod["mod1"]+" | " + mod["mod2"]+" | " + mod["mod3"]+" | " + mod["mod4"]
-            print(msg)
             send_mess(chat_id, msg)
         db.portals.update({ 'name': port['name'] }, { 'name': port['name'], 'mod': "" } )
-    time.sleep(3)  
+    time.sleep(1)  
 
 def main():     
     update_id = last_update(get_updates_json(url))['update_id']   
@@ -91,7 +90,7 @@ def main():
             switch(message, last, db)
             update_id += 1        
         get_status(db)  
-        time.sleep(5)     
+        time.sleep(1)     
     
  
 if __name__ == '__main__':  
