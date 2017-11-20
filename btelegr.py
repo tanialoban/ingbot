@@ -46,19 +46,23 @@ class BotHandler:
         username = last['message']['chat']['username']           
         if 'бот' in in_msg or 'Бот' in in_msg:
             if "статус" in in_msg:
-                cursor = portals.find({"name": in_msg[11:]})   
+                cursor = portals.find({"name": in_msg[11:]}) 
+                f = True  
                 for port in cursor:
+                    f = False
                     mods = modes.find({"_id": port['_id']}) 
                     for mod in mods:   
                         msg = port['name'] + ":\n" +  mod["mod1"]+" | " + mod["mod2"]+" | " + mod["mod3"]+" | " + mod["mod4"]
-                else:
+                if f:
                     msg =  "Упс, " + in_msg[11:] + " нет в моей базе"
                 self.send_mess(chat_id, msg)
             elif "где" in in_msg:
-                objc = players.find({"nameing": in_msg[8:]})                  
-                for plr in objc:                   
+                objc = players.find({"nameing": in_msg[8:]})    
+                f = True
+                for plr in objc:            
+                    f = False       
                     msg = in_msg[8:] + " последний раз был на "+ plr['portal'] + " в " + plr['time'] 
-                else:    
+                if f:    
                     msg = "Прости друг, " + in_msg[8:] + " еще не добавил в базу, но я работаю над этим :)"
                 self.send_mess(chat_id, msg)
         elif in_msg in welcome:
@@ -89,8 +93,6 @@ def main():
         if update_id == last_update['update_id']:
             message = last_update['message']['text']
             greet_bot.switch(message, last_update, db)
-            print(update_id)
-            print(message)
             update_id += 1        
         greet_bot.get_status(db)  
         time.sleep(1)     
