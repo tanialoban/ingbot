@@ -30,6 +30,8 @@ class BotHandler:
         params = {'chat_id': chat_id, 'text': text}
         method = 'sendMessage'
         resp = requests.post(self.url + method, params)
+        print(chat_id)
+        print(text)
         return resp
 
     def switch(self, in_msg, last, db):
@@ -69,6 +71,7 @@ class BotHandler:
             self.send_mess(chat_id, random.SystemRandom().choice(welcome) + ', ' + firstname)
         elif in_msg in cool:            
             self.send_mess(chat_id, random.SystemRandom().choice(thanks))   
+        print(msg)
 
     def get_status(self, db):
         portals = db['portals']
