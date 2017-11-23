@@ -71,18 +71,18 @@ class BotHandler:
             self.send_mess(chat_id, random.SystemRandom().choice(welcome) + ', ' + firstname)
         elif in_msg in cool:            
             self.send_mess(chat_id, random.SystemRandom().choice(thanks)) 
-        elif in_msg == '/enl8':
+        # elif in_msg == '/enl8':
 
-        elif in_msg == '/enl78': 
+        # elif in_msg == '/enl78': 
 
-        elif in_msg == '/res78':  
+        # elif in_msg == '/res78':  
 
-        elif in_msg == '/res8':   
+        # elif in_msg == '/res8':   
 
-        elif in_msg == '/eferm':
+        # elif in_msg == '/eferm':
 
-        elif in_msg == '/rferm':
-            
+        # elif in_msg == '/rferm':
+
         print(msg)
 
     def get_status(self, db):
