@@ -1,1 +1,1 @@
-web: python btelegr.py
+web: python btelegr.py $1234
