@@ -217,10 +217,15 @@ def main():
     client = MongoClient(MONGO_URI)
     db = client.ingressdb 
     while True:
+        print("wait new updates")
         greet_bot.get_updates(new_offset)
+        print("wait last update")
         last_update = greet_bot.get_last_update()
+        
+        print(update_id,last_update['update_id'])
         if update_id == last_update['update_id']:
             message = last_update['message']['text']
+            print(message)
             greet_bot.switch(message, last_update, db)
             greet_bot.get_status(db, last_update['message']['chat']['id'])  
             update_id += 1                
