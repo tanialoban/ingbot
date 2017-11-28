@@ -3,6 +3,7 @@ import requests
 import datetime
 import random
 from pymongo import MongoClient
+import os
 
 class BotHandler: 
     def __init__(self, token):
