@@ -10,5 +10,5 @@ WORKDIR /usr/btelegr/
 
 EXPOSE 8349
 
-CMD ["python3", "-u", "gbtelegr.py"]
+CMD ["python3", "-u", "btelegr.py"]
  
