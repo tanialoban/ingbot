@@ -4,8 +4,6 @@ import datetime
 import random
 from pymongo import MongoClient
 
-TOKEN = '411787988:AAFJ7JdB6gXfeoNNksru_cN-Eh9Ei8_1_PY'
-
 class BotHandler: 
     def __init__(self, token):
         self.token = token
@@ -205,11 +203,17 @@ class BotHandler:
                 {"_id": port['_id'], "level": port['level'], "owner":  '', "name": port['name'], "lat": port['lat'], 'lng':port['lng'], 'mod': port['mod'] })
                
 
-def main():     
+def main():
+    TOKEN = os.environ['TELEGRAM_TOKEN']
+    print("TELEGRAM_TOKEN" + TOKEN)
+    MONGO_URI = os.environ['MONGO_URI']
+    print("MONGO_URI" + MONGO_URI)
+
+
     greet_bot = BotHandler(TOKEN) 
     new_offset = None
     update_id = greet_bot.get_last_update()['update_id']   
-    client = MongoClient("mongodb://user:user@ds149865.mlab.com:49865/ingressdb")
+    client = MongoClient(MONGO_URI)
     db = client.ingressdb 
     while True:
         greet_bot.get_updates(new_offset)
