@@ -26,9 +26,11 @@ class BotHandler:
         return last_update
 
     def send_mess(self, chat_id, text):
+        print('start send')
         params = {'chat_id': chat_id, 'text': text}
         method = 'sendMessage'
         resp = requests.post(self.url + method, params)
+        print('end send')
         print(chat_id)
         print(text)
         return resp
@@ -44,6 +46,7 @@ class BotHandler:
         portals = db['portals']
         chat_id = last['message']['chat']['id']
         
+        print("swich start")
         try:
             firstname = last['message']['chat']['first_name']
         except KeyError:
@@ -98,13 +101,18 @@ class BotHandler:
                 self.send_mess(chat_id, msg) 
             else:
                 self.send_mess(chat_id, "нет R7-R8")    
-        if in_msg == '/res8':   
-            portR8 = portals.find({"level": "R8"})
+        if in_msg == '/res8': 
+            
+            print("command res8")  
+            portR8 = portals.find({"level": "R8"})            
+            print("find res8")
             i = 1
             msg = 'R8:'
             for port in portR8:
                 msg = msg + '\n' + str(i) + ". "+ port['name'] + " " + port['level'] + ' '   
                 i = i + 1
+            
+            print("before send message")    
             if i > 1:    
                 self.send_mess(chat_id, msg) 
             else:
@@ -184,6 +192,7 @@ class BotHandler:
             self.send_mess(chat_id, random.SystemRandom().choice(welcome) + ', ' + firstname)
         elif in_msg.lower() in cool:            
             self.send_mess(chat_id, random.SystemRandom().choice(thanks)) 
+        print("end swich")      
         print(msg)
 
     def get_status(self, db,chat_id):
@@ -219,17 +228,15 @@ def main():
     while True:
         print("wait new updates")
         greet_bot.get_updates(new_offset)
-        print("wait last update")
+        print("wait last update test 3")
         last_update = greet_bot.get_last_update()
-        
         print(update_id,last_update['update_id'])
         if update_id == last_update['update_id']:
             message = last_update['message']['text']
             print(message)
             greet_bot.switch(message, last_update, db)
-            greet_bot.get_status(db, last_update['message']['chat']['id'])  
-            update_id += 1                
-        time.sleep(1)     
+            # greet_bot.get_status(db, last_update['message']['chat']['id'])  
+            update_id += 1       
      
 if __name__ == '__main__':  
     main()
