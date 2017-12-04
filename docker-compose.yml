@@ -2,14 +2,13 @@ version: '2'
 
 services:
     btelegr:
-        build: btelegr
+        image: btelegr
         container_name: btelegr
         hostname: btelegr
         restart: always
         environment:
             - TELEGRAM_TOKEN=411787988:AAFJ7JdB6gXfeoNNksru_cN-Eh9Ei8_1_PY
             - MONGO_URI=mongodb://user:user@ds149865.mlab.com:49865/ingressdb
-            - GOOGLE_CHROME_SHIM=/app/.apt/opt/google/chrome/google-chrome
-            - GOOGLE_CHROME_BIN=/app/.apt/opt/google/chrome/google-chrome
+
 
 # TODO I exposed all secrets as env variables, please, remove them and regenerate all tokens. Don't keep them in public repository!!!!!
