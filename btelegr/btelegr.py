@@ -214,6 +214,7 @@ class BotHandler:
                
 
 def main():
+    print("start")
     TOKEN = os.environ['TELEGRAM_TOKEN']
     print("TELEGRAM_TOKEN" + TOKEN)
     MONGO_URI = os.environ['MONGO_URI']
