@@ -7,7 +7,8 @@ services:
         hostname: btelegr
         restart: always
         environment:
+            - NAME_BOT=
             - TELEGRAM_TOKEN=
-            - MONGO_URI=mongodb://
+            - MONGO_URI=
             
 # TODO I exposed all secrets as env variables, please, remove them and regenerate all tokens. Don't keep them in public repository!!!!!

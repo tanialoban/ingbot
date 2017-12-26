@@ -25,8 +25,9 @@ class Portal:
         return False
 
 class BotHandler: 
-    def __init__(self, token):
+    def __init__(self, token, name_bot):
         self.token = token
+        self.name_bot = name_bot
         self.url = "https://api.telegram.org/bot{}/".format(token)
 
     def get_updates(self, offset=None, timeout=30):
@@ -50,7 +51,7 @@ class BotHandler:
         resp = requests.post(self.url + method, params)
         return resp
 
-    def portal_info_L8(name, value): #list L8 portals
+    def portal_info_L8(self, name, value, portals, chat_id): #list L8 portals
         port8 = portals.find({name: value})
         msg = value + ':'
         i = 1
@@ -62,7 +63,7 @@ class BotHandler:
         else:
             self.send_mess(chat_id, "нет " + value)    
 
-    def get_portal_ferms(name, key1, key2): #list L7-L8 portals with farm modes
+    def get_portal_ferms(self, name, key1, key2, portals, chat_id): #list L7-L8 portals with farm modes
         port7 = portals.find({name: key1})
         port8 = portals.find({name: key2})
         i = 1
@@ -87,7 +88,7 @@ class BotHandler:
         else:
             self.send_mess(chat_id, "нет ферм")    
 
-    def portal_info_L78(name, key1, key2): #list L7-L8 portals
+    def portal_info_L78(self, name, key1, key2, portals, chat_id): #list L7-L8 portals
         port8 = portals.find({name: key1})
         port7 = portals.find({name: key2})
         msg = key1 + ':'
@@ -121,21 +122,21 @@ class BotHandler:
         except KeyError:
             firstname = ''
             username = last['message']['from']['first_name'] 
-        if '@bjornKingBot' in in_msg:  #chat for some people contains end word command '@namebot'          
-            in_msg = in_msg[:-13]
+        if self.name_bot in in_msg:  #chat for some people contains end word command '@namebot'          
+            in_msg = in_msg[:-12]
     # command to bot
         if in_msg == '/enl8':            
-            portal_info_L8("level", "E8")            
+            self.portal_info_L8("level", "E8", portals, chat_id)            
         if in_msg == '/enl78': 
-            portal_info_L78("level", "E7", "E8")     
+            self.portal_info_L78("level", "E7", "E8", portals, chat_id)     
         if in_msg == '/res78':  
-            portal_info_L78("level", "R7", "R8")    
+            self.portal_info_L78("level", "R7", "R8", portals, chat_id)    
         if in_msg == '/res8': 
-            portal_info_L8("level", "R8") 
+            self.portal_info_L8("level", "R8", portals, chat_id) 
         if in_msg == '/eferm':
-            get_portal_ferms("level", "E8", "E7")    
+            self.get_portal_ferms("level", "E8", "E7", portals, chat_id)    
         if in_msg == '/rferm':
-            get_portal_ferms("level", "R8", "R7") 
+            self.get_portal_ferms("level", "R8", "R7", portals, chat_id) 
 
     # text message to bot
         if 'бот' in in_msg or 'Бот' in in_msg:
@@ -148,7 +149,7 @@ class BotHandler:
                     for mod in mods:   
                         msg = port['name'] + ":\n" +  mod["mod1"]+" = " + mod["own1"]  + "\n"+ mod["mod2"]+" = "+ mod["own2"]  + "\n" + mod["mod3"]+" = " + mod["own3"]  + "\n" + mod["mod4"] + " = "+ mod["own4"]
                 if f:
-                    msg =  "Упс, " + in_msg[11:] + " нет в моей базе"
+                    msg =  "OOPS, " + in_msg[11:] + " no found"
                 self.send_mess(chat_id, msg)
             elif "где" in in_msg:
                 objc = players.find({"nameing": in_msg[8:]})    
@@ -157,7 +158,7 @@ class BotHandler:
                     f = False       
                     msg = in_msg[8:] + " последний раз был на "+ plr['portal'] + " в " + plr['time'] 
                 if f:    
-                    msg = "Прости друг, " + in_msg[8:] + " еще не добавил в базу, но я работаю над этим :)"
+                    msg = "OOPS, " + in_msg[8:] + " еще не добавил в базу, но я работаю над этим :)"
                 self.send_mess(chat_id, msg)
         elif in_msg.lower() in welcome:
             self.send_mess(chat_id, random.SystemRandom().choice(welcome) + ', ' + firstname)
@@ -165,13 +166,14 @@ class BotHandler:
             self.send_mess(chat_id, random.SystemRandom().choice(thanks)) 
         print(msg)
                  
-def main():
-    print("start")
+def main():            
     TOKEN = os.environ['TELEGRAM_TOKEN']
-    print("TELEGRAM_TOKEN" + TOKEN)
+    print("TELEGRAM_TOKEN " + TOKEN)
     MONGO_URI = os.environ['MONGO_URI']
-    print("MONGO_URI" + MONGO_URI)
-    greet_bot = BotHandler(TOKEN) 
+    print("MONGO_URI " + MONGO_URI)
+    NAME_BOT = os.environ['NAME_BOT']
+    print("NAME_BOT " + NAME_BOT)
+    greet_bot = BotHandler(TOKEN, NAME_BOT) 
     new_offset = None
     update_id = greet_bot.get_last_update()['update_id']   
     client = MongoClient(MONGO_URI)
